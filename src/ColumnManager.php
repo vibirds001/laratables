@@ -103,6 +103,12 @@ class ColumnManager
     protected function setColumnPropertiesFor($column)
     {
         $columnName = $column['name'];
+        
+        //不显示model里定义的$hidden隐藏字段
+        $hiddenColumn=$this->modelObject->getHidden();
+        if (in_array($columnName, $hiddenColumn)) {
+            return;
+        }
 
         if ($column['searchable'] == 'true' && ! in_array($columnName, config('laratables.non_searchable_columns'))) {
             $this->searchColumns[] = $columnName;
